@@ -19,6 +19,9 @@ public class LinkedListDS {
 		list.insert(new Person(60, "OLD"));
 		list.insert(new Person(70, "ABOUT TO EXPIRE"));
 		list.traverseList();
+		//System.out.println(list.getMiddleNode());
+		list.reverse();
+		list.traverseList();
 		
 	}
 

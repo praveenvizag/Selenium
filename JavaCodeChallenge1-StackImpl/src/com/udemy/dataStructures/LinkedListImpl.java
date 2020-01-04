@@ -1,19 +1,19 @@
 package com.udemy.dataStructures;
 
 public class LinkedListImpl<T extends Comparable<T>> implements List<T> {
-	
+
 	private Node<T> rootNode;
 	private int sizeOflist;
 
 	@Override
 	public void insert(T data) {
 		++this.sizeOflist;
-		if(rootNode == null) {
+		if (rootNode == null) {
 			rootNode = new Node<T>(data);
 		} else {
 			insertDataAtBeginning(data);
 		}
-		
+
 	}
 
 	private void insertDataAtBeginning(T data) {
@@ -21,9 +21,9 @@ public class LinkedListImpl<T extends Comparable<T>> implements List<T> {
 		node.setNextNode(rootNode);
 		this.rootNode = node;
 	}
-	
-	private void insertDataAtEnd(Node<T> node , T data) {
-		if(node.getNextNode() != null) {
+
+	private void insertDataAtEnd(Node<T> node, T data) {
+		if (node.getNextNode() != null) {
 			insertDataAtEnd(node.getNextNode(), data);
 		} else {
 			Node<T> lastNode = new Node<T>(data);
@@ -33,35 +33,37 @@ public class LinkedListImpl<T extends Comparable<T>> implements List<T> {
 
 	@Override
 	public void remove(T data) {
-		if(this.rootNode == null) return;
+		if (this.rootNode == null)
+			return;
 		--this.sizeOflist;
-		if(this.rootNode.data.compareTo(data) == 0) {
+		if (this.rootNode.data.compareTo(data) == 0) {
 			this.rootNode = this.rootNode.getNextNode();
 		} else {
-			remove(data,this.rootNode,this.rootNode.getNextNode());
+			remove(data, this.rootNode, this.rootNode.getNextNode());
 		}
-		
+
 	}
 
 	private void remove(T data, Node<T> previousNode, Node<T> actualNode) {
-		while(actualNode != null) {
-			if(actualNode.getData().compareTo(data)==0) {
+		while (actualNode != null) {
+			if (actualNode.getData().compareTo(data) == 0) {
 				previousNode.setNextNode(actualNode.getNextNode());
 				actualNode = null;
 				return;
 			}
 			previousNode = actualNode;
-			actualNode=actualNode.getNextNode();
+			actualNode = actualNode.getNextNode();
 		}
-		
+
 	}
 
 	@Override
 	public void traverseList() {
-		if(this.rootNode == null) return;
+		if (this.rootNode == null)
+			return;
 		Node<T> actualNode = this.rootNode;
-		while(actualNode != null) {
-			System.out.print("-> " + actualNode);
+		while (actualNode != null) {
+			System.out.print(actualNode + "->");
 			actualNode = actualNode.getNextNode();
 		}
 	}
@@ -69,6 +71,33 @@ public class LinkedListImpl<T extends Comparable<T>> implements List<T> {
 	@Override
 	public int size() {
 		return this.sizeOflist;
+	}
+
+	@Override
+	public Node<T> getMiddleNode() {
+		Node<T> fastPointer = this.rootNode;
+		Node<T> slowPointer = this.rootNode;
+		while (fastPointer.getNextNode() != null && slowPointer.getNextNode() != null) {
+			fastPointer = fastPointer.getNextNode().getNextNode();
+			slowPointer = slowPointer.getNextNode();
+		}
+		return slowPointer;
+	}
+
+	@Override
+	public void reverse() {
+
+		 Node<T> currNode = this.rootNode;
+		 Node<T> prevNode = null;
+		 Node<T> nextNode = null;
+		 while(currNode != null) {
+			 nextNode = currNode.getNextNode();
+			 currNode.setNextNode(prevNode);
+			 prevNode = currNode;
+			 currNode = nextNode;
+		 }
+		 this.rootNode = prevNode;
+		
 	}
 
 }
